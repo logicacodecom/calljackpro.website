@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------
+   Call Jack Pro design tokens
+   Yellow is the ONLY chromatic accent. Pair it with black text.
+---------------------------------------------------------------- */
+@theme {
+  --color-ink: #111111;
+  --color-paper: #ffffff;
+  --color-brand: #ffcc00;
+  --color-brand-dark: #e6b800;
+  --color-cream: #fff8dd;
+  --color-mist: #f5f5f5;
+  --color-night: #121214;
+  --color-night-2: #1d1d22;
+  --color-muted: #4a4a4a;
+
+  --font-display: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: 1.125rem;
+  --shadow-pop: 0 3px 0 0 #111111;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+  }
+  :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+    outline: 3px solid var(--color-ink);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 6px var(--color-brand);
+    border-radius: 6px;
+  }
+  /* Keep anchor targets clear of the sticky header */
+  [id] {
+    scroll-margin-top: 6rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@utility font-heading {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+/* Skewed yellow marker highlight used for key phrases (see mockup). */
+@utility marker {
+  background: var(--color-brand);
+  color: var(--color-ink);
+  padding: 0.05em 0.35em 0.1em;
+  border-radius: 0.3em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
