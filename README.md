@@ -76,11 +76,12 @@ Pages are statically prerendered, so set these env vars **before building/deploy
 
 ## Launch checklist
 
-- [ ] Real phone number: `NEXT_PUBLIC_PHONE_DISPLAY` / `NEXT_PUBLIC_PHONE_E164` (the default is the mockup's sample number)
-- [ ] Production domain: `NEXT_PUBLIC_SITE_URL` (canonicals, sitemap, OG and JSON-LD use it)
+- [x] Phone number: (954) 662-2972 (built-in default; override with `NEXT_PUBLIC_PHONE_DISPLAY`)
+- [x] Production domain: https://www.calljackpro.com (built-in default; override with `NEXT_PUBLIC_SITE_URL` for previews)
+- [x] No physical address (mobile service-area business): the address stays unset and is never displayed or marked up
 - [ ] Form delivery provider (webhook or Resend)
 - [ ] Confirmed service areas: `NEXT_PUBLIC_SERVICE_AREAS`
 - [ ] Confirm the 24/7 lockout coverage claim matches real operations (`NEXT_PUBLIC_LOCKOUT_24_7`)
-- [ ] Handyperson hours, contact email, and public address (only if there is a storefront)
+- [ ] Handyperson hours and contact email
 - [ ] Review copy for any licensing/insurance statements you want to add. None are claimed today.
 - [ ] Submit the sitemap in Google Search Console and link the site from the Google Business Profile

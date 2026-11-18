@@ -32,8 +32,8 @@ const env = (key: keyof typeof raw) => {
   return value && value.trim() !== "" ? value.trim() : undefined;
 };
 
-/** Display format, e.g. "(555) 123-4567". PLACEHOLDER until NEXT_PUBLIC_PHONE_DISPLAY is set. */
-const phoneDisplay = env("NEXT_PUBLIC_PHONE_DISPLAY") ?? "(555) 123-4567";
+/** Display format. Override with NEXT_PUBLIC_PHONE_DISPLAY. */
+const phoneDisplay = env("NEXT_PUBLIC_PHONE_DISPLAY") ?? "(954) 662-2972";
 
 /** E.164 format used for tel: links, e.g. "+15551234567". Derived from the display number if not set. */
 const phoneE164 =
@@ -56,14 +56,13 @@ export const business = {
   description:
     "Friendly local locksmith and handyperson service. Emergency lockout help 24/7 — even after midnight — plus everyday home repairs, installation, assembly and maintenance.",
 
-  /** Canonical site origin, no trailing slash. PLACEHOLDER until NEXT_PUBLIC_SITE_URL is set. */
-  siteUrl: (env("NEXT_PUBLIC_SITE_URL") ?? "http://localhost:3000").replace(/\/$/, ""),
+  /** Canonical site origin, no trailing slash. Override with NEXT_PUBLIC_SITE_URL (e.g. for previews). */
+  siteUrl: (env("NEXT_PUBLIC_SITE_URL") ?? "https://www.calljackpro.com").replace(/\/$/, ""),
 
   phone: {
     display: phoneDisplay,
     e164: phoneE164,
     href: `tel:${phoneE164}`,
-    isPlaceholder: !env("NEXT_PUBLIC_PHONE_DISPLAY"),
   },
 
   email: env("NEXT_PUBLIC_CONTACT_EMAIL"),
@@ -87,8 +86,9 @@ export const business = {
   },
 
   /**
-   * Public street address. Leave unset for a service-area business with no
-   * storefront — the site will not display or mark up an address.
+   * Public street address. Call Jack Pro is a mobile, service-area business
+   * with no physical location, so this stays unset — the site neither
+   * displays nor marks up an address. Only set it if a storefront opens.
    */
   address: env("NEXT_PUBLIC_STREET_ADDRESS")
     ? {
