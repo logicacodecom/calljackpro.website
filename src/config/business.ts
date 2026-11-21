@@ -126,7 +126,7 @@ export const business = {
    * - profileUrls: comma-separated Yelp, Nextdoor, Facebook, Angi… profile URLs
    */
   links: {
-    googleBusinessUrl: env("NEXT_PUBLIC_GOOGLE_BUSINESS_URL"),
+    googleBusinessUrl: env("NEXT_PUBLIC_GOOGLE_BUSINESS_URL") ?? "https://share.google/iE1gBzzXEU6oSwhTQ",
     googleReviewUrl: env("NEXT_PUBLIC_GOOGLE_REVIEW_URL"),
     profileUrls: list(env("NEXT_PUBLIC_PROFILE_URLS")),
   },

@@ -82,7 +82,8 @@ Pages are statically prerendered, so set these env vars **before building/deploy
 - [x] No physical address (mobile service-area business): the address stays unset and is never displayed or marked up
 - [ ] Form delivery provider (webhook or Resend)
 - [ ] Confirmed service areas: `NEXT_PUBLIC_SERVICE_AREAS` (creates the `/areas/<city>` pages) and `NEXT_PUBLIC_REGION_LABEL` (adds the region to the homepage title)
-- [ ] Google Business Profile links: `NEXT_PUBLIC_GOOGLE_BUSINESS_URL`, `NEXT_PUBLIC_GOOGLE_REVIEW_URL`
+- [x] Google Business Profile link: https://share.google/iE1gBzzXEU6oSwhTQ (built-in default; override with `NEXT_PUBLIC_GOOGLE_BUSINESS_URL`)
+- [ ] Google review link: `NEXT_PUBLIC_GOOGLE_REVIEW_URL`
 - [ ] Optional GA4 tracking of calls and form leads: `NEXT_PUBLIC_GA_MEASUREMENT_ID`
 - [ ] Confirm the 24/7 lockout coverage claim matches real operations (`NEXT_PUBLIC_LOCKOUT_24_7`)
 - [ ] Handyperson hours and contact email
