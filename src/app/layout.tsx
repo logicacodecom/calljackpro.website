@@ -6,7 +6,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { MobileCallBar } from "@/components/layout/MobileCallBar";
 import { Analytics } from "@/components/Analytics";
-import { JsonLd, localBusinessJsonLd } from "@/lib/structured-data";
+import { JsonLd, localBusinessJsonLd, websiteJsonLd } from "@/lib/structured-data";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -64,6 +64,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           Skip to main content
         </a>
         <JsonLd data={localBusinessJsonLd()} />
+        <JsonLd data={websiteJsonLd()} />
         <Header />
         <main id="main" className="flex-1">
           {children}

@@ -36,6 +36,7 @@ export function Footer() {
           <ul className="mt-3 space-y-1">
             {mainNav
               .filter((i) => !["/services", "/lockout", "/handyman"].includes(i.href))
+              .concat({ label: "FAQ", href: "/faq" })
               .map((item) => (
                 <li key={item.href}>
                   <Link href={item.href} className="inline-flex min-h-10 items-center hover:underline">

@@ -98,7 +98,9 @@ export const business = {
   legalName: env("NEXT_PUBLIC_LEGAL_NAME") ?? "Call Jack Pro",
   tagline: "Handyperson & Locksmith",
   description:
-    "Friendly local locksmith and handyperson service. Emergency lockout help 24/7 — even after midnight — plus everyday home repairs, installation, assembly and maintenance.",
+    "Friendly mobile locksmith and handyperson service in the Tampa Bay Area, FL and the Clarkston, MI area. Emergency lockout help 24/7 — even after midnight — plus rekeying, lock repair and everyday home repairs, installation, assembly and maintenance.",
+  /** Other names people search for, used as schema alternateName. */
+  alternateNames: ["CallJackPro", "Call Jack Pro Locksmith", "Call Jack Pro Handyman"],
 
   /** Canonical site origin, no trailing slash. Override with NEXT_PUBLIC_SITE_URL (e.g. for previews). */
   siteUrl: (env("NEXT_PUBLIC_SITE_URL") ?? "https://www.calljackpro.com").replace(/\/$/, ""),
