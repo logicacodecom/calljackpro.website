@@ -1,4 +1,4 @@
-import { business, serviceAreaPages } from "@/config/business";
+import { business, profileLabel, serviceAreaPages } from "@/config/business";
 import { services } from "@/config/services";
 import { areasByState, faqs } from "@/config/faq";
 
@@ -27,6 +27,7 @@ export function GET() {
     `- Handyperson work: ${business.hours.handymanLabel}`,
     ...areasByState().map((g) => `- Service area${g.stateName ? ` (${g.stateName})` : ""}: ${g.cities.join(", ")}`),
     ...(business.links.googleBusinessUrl ? [`- Google Business Profile: ${business.links.googleBusinessUrl}`] : []),
+    ...business.links.profileUrls.map((u) => `- ${profileLabel(u)}: ${u}`),
     "",
     "## Services",
     ...services.map((s) => `- [${s.title}](${url}${s.href}): ${s.items.join(", ")}`),

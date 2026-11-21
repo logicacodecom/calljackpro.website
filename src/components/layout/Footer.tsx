@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { business, serviceAreaPages } from "@/config/business";
+import { business, profileLabel, serviceAreaPages } from "@/config/business";
 import { mainNav, servicesMenu } from "@/config/navigation";
 import { Logo } from "@/components/Logo";
 import { CallButton } from "@/components/PrimaryCTA";
@@ -78,9 +78,11 @@ export function Footer() {
                 )}
               </dd>
             </div>
-            {(business.links.googleReviewUrl || business.links.googleBusinessUrl) && (
+            {(business.links.googleReviewUrl ||
+              business.links.googleBusinessUrl ||
+              business.links.profileUrls.length > 0) && (
               <div>
-                <dt className="font-bold">Find us on Google</dt>
+                <dt className="font-bold">Find us online</dt>
                 <dd className="flex flex-wrap gap-x-3">
                   {business.links.googleBusinessUrl && (
                     <a className="underline" href={business.links.googleBusinessUrl} target="_blank" rel="noopener">
@@ -92,6 +94,11 @@ export function Footer() {
                       Leave a review
                     </a>
                   )}
+                  {business.links.profileUrls.map((url) => (
+                    <a key={url} className="underline" href={url} target="_blank" rel="noopener">
+                      {profileLabel(url)}
+                    </a>
+                  ))}
                 </dd>
               </div>
             )}

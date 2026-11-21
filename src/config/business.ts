@@ -158,7 +158,7 @@ export const business = {
   links: {
     googleBusinessUrl: env("NEXT_PUBLIC_GOOGLE_BUSINESS_URL") ?? "https://share.google/iE1gBzzXEU6oSwhTQ",
     googleReviewUrl: env("NEXT_PUBLIC_GOOGLE_REVIEW_URL"),
-    profileUrls: list(env("NEXT_PUBLIC_PROFILE_URLS")),
+    profileUrls: list(env("NEXT_PUBLIC_PROFILE_URLS") ?? "https://yelp.to/_5v3on9zD5"),
   },
 
   /** Google Analytics 4 measurement ID (G-XXXXXXX). Optional; enables call/lead tracking. */
@@ -171,5 +171,21 @@ export const serviceAreaPages = serviceAreaList.map((a) => ({
   slug: areaSlug(a.city),
   path: `/areas/${areaSlug(a.city)}`,
 }));
+
+/** Human label for a profile URL, e.g. "Yelp". */
+export const profileLabel = (url: string) => {
+  const host = url.replace(/^https?:\/\//, "").split("/")[0].replace(/^www\./, "");
+  const known: Record<string, string> = {
+    "yelp.com": "Yelp",
+    "yelp.to": "Yelp",
+    "facebook.com": "Facebook",
+    "nextdoor.com": "Nextdoor",
+    "instagram.com": "Instagram",
+    "angi.com": "Angi",
+    "thumbtack.com": "Thumbtack",
+    "bbb.org": "BBB",
+  };
+  return known[host] ?? host;
+};
 
 export type Business = typeof business;
