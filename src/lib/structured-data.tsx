@@ -1,5 +1,5 @@
 import { business } from "@/config/business";
-import type { Service } from "@/config/services";
+import { services, type Service } from "@/config/services";
 
 const businessId = () => `${business.siteUrl}/#business`;
 
@@ -14,11 +14,29 @@ export function localBusinessJsonLd() {
     "@type": ["Locksmith", "HomeAndConstructionBusiness"],
     "@id": businessId(),
     name: business.name,
+    alternateName: business.alternateNames,
     description: business.description,
+    slogan: business.tagline,
     url: business.siteUrl,
     telephone: business.phone.e164,
     image: `${business.siteUrl}/images/og-call-jack-pro.jpg`,
     logo: `${business.siteUrl}/icon.png`,
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: business.phone.e164,
+      contactType: "customer service",
+      areaServed: "US",
+      availableLanguage: "English",
+    },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Locksmith and handyperson services",
+      itemListElement: services.map((s) => ({
+        "@type": "OfferCatalog",
+        name: s.title,
+        itemListElement: s.items.map((name) => ({ "@type": "Offer", itemOffered: { "@type": "Service", name } })),
+      })),
+    },
     knowsAbout: ["Lockout service", "Rekeying", "Lock repair", "Handyperson services", "Furniture assembly"],
   };
 
@@ -45,6 +63,19 @@ export function localBusinessJsonLd() {
   if (business.links.googleBusinessUrl) data.hasMap = business.links.googleBusinessUrl;
 
   return data;
+}
+
+/** WebSite markup so search engines and assistants use the right site name. */
+export function websiteJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${business.siteUrl}/#website`,
+    name: business.name,
+    alternateName: business.alternateNames,
+    url: business.siteUrl,
+    publisher: { "@id": businessId() },
+  };
 }
 
 export function serviceJsonLd(service: Pick<Service, "title" | "intro" | "items">, path: string) {

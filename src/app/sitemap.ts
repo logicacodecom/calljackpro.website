@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { business, serviceAreaPages } from "@/config/business";
 
-export const routes = ["/", "/lockout", "/locksmith", "/services", "/handyman", "/about", "/contact"] as const;
+export const routes = ["/", "/lockout", "/locksmith", "/services", "/handyman", "/about", "/contact", "/faq"] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [...routes, ...serviceAreaPages.map((a) => a.path)].map((path) => ({
