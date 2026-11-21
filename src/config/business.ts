@@ -62,11 +62,36 @@ export const areaSlug = (name: string) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
 
-/** Comma-separated list, e.g. "Springfield, Shelbyville, Capital City". */
-const serviceAreas = list(
-  env("NEXT_PUBLIC_SERVICE_AREAS") ??
-    "Tampa, St. Petersburg, Clearwater, Brandon, Largo, Riverview, Wesley Chapel, Palm Harbor",
-);
+/**
+ * Service-area cities as "City/ST", comma-separated, e.g. "Tampa/FL, Clarkston/MI".
+ * The state is optional. Override with NEXT_PUBLIC_SERVICE_AREAS.
+ */
+const DEFAULT_SERVICE_AREAS = [
+  // Tampa Bay Area, FL
+  "Tampa/FL",
+  "St. Petersburg/FL",
+  "Clearwater/FL",
+  "Brandon/FL",
+  "Largo/FL",
+  "Riverview/FL",
+  "Wesley Chapel/FL",
+  "Palm Harbor/FL",
+  // Clarkston, MI area (Oakland County)
+  "Clarkston/MI",
+  "Waterford/MI",
+  "Independence Township/MI",
+  "Lake Orion/MI",
+  "Auburn Hills/MI",
+  "Pontiac/MI",
+].join(", ");
+
+const serviceAreaList = list(env("NEXT_PUBLIC_SERVICE_AREAS") ?? DEFAULT_SERVICE_AREAS).map((entry) => {
+  const [city, state] = entry.split("/").map((s) => s.trim());
+  return { city, state: state || undefined, name: state ? `${city}, ${state}` : city };
+});
+
+/** Display names, e.g. "Tampa, FL". */
+const serviceAreas = serviceAreaList.map((a) => a.name);
 
 export const business = {
   name: "Call Jack Pro",
@@ -120,7 +145,7 @@ export const business = {
     : null,
 
   /** Primary region shown in copy, e.g. "Springfield, IL". Optional. */
-  regionLabel: env("NEXT_PUBLIC_REGION_LABEL") ?? "the Tampa Bay Area",
+  regionLabel: env("NEXT_PUBLIC_REGION_LABEL") ?? "Tampa Bay, FL & Clarkston, MI",
 
   /**
    * Off-site profiles. Each one is optional and only shown/marked up once set.
@@ -139,10 +164,10 @@ export const business = {
 } as const;
 
 /** Configured service areas with their page paths (/areas/<slug>). */
-export const serviceAreaPages = business.serviceAreas.map((name) => ({
-  name,
-  slug: areaSlug(name),
-  path: `/areas/${areaSlug(name)}`,
+export const serviceAreaPages = serviceAreaList.map((a) => ({
+  ...a,
+  slug: areaSlug(a.city),
+  path: `/areas/${areaSlug(a.city)}`,
 }));
 
 export type Business = typeof business;

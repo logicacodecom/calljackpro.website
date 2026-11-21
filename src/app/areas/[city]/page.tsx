@@ -45,7 +45,7 @@ export default async function AreaPage({ params }: PageProps<"/areas/[city]">) {
   const area = findArea((await params).city);
   if (!area) notFound();
 
-  const otherAreas = serviceAreaPages.filter((a) => a.slug !== area.slug);
+  const otherAreas = serviceAreaPages.filter((a) => a.slug !== area.slug && a.state === area.state);
 
   return (
     <>
@@ -71,7 +71,7 @@ export default async function AreaPage({ params }: PageProps<"/areas/[city]">) {
         lead={
           <p>
             Locked out, need a lock rekeyed, or have a list of small jobs around the house? Jack comes to you in{" "}
-            {area.name} in a fully equipped service van.{" "}
+            {area.city} in a fully equipped service van.{" "}
             {business.hours.lockout247 && <strong>Emergency lockouts are handled 24/7.</strong>}
           </p>
         }
@@ -87,7 +87,7 @@ export default async function AreaPage({ params }: PageProps<"/areas/[city]">) {
 
       <section aria-labelledby="area-services-heading" className="mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-8">
         <h2 id="area-services-heading" className="font-heading text-3xl">
-          What Jack does in {area.name}
+          What Jack does in {area.city}
         </h2>
         <ul className="mt-5 grid gap-4 md:grid-cols-2">
           {services.map((s) => (
@@ -108,7 +108,7 @@ export default async function AreaPage({ params }: PageProps<"/areas/[city]">) {
         </ul>
         <p className="mt-6 text-lg">
           <Link href="/lockout" className="font-bold underline">
-            Locked out in {area.name} right now?
+            Locked out in {area.city} right now?
           </Link>{" "}
           Call {business.phone.display} — you&rsquo;ll talk with Jack directly.
         </p>
@@ -117,7 +117,7 @@ export default async function AreaPage({ params }: PageProps<"/areas/[city]">) {
       {otherAreas.length > 0 && (
         <section aria-labelledby="other-areas-heading" className="mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-8">
           <h2 id="other-areas-heading" className="font-heading text-2xl">
-            Also serving
+            Also serving nearby
           </h2>
           <ul className="mt-3 flex flex-wrap gap-2">
             {otherAreas.map((a) => (
@@ -135,7 +135,7 @@ export default async function AreaPage({ params }: PageProps<"/areas/[city]">) {
       )}
 
       <EmergencyNightSection />
-      <ContactCTA eyebrow={`Locked out or need a quick fix in ${area.name}?`} />
+      <ContactCTA eyebrow={`Locked out or need a quick fix in ${area.city}?`} />
     </>
   );
 }

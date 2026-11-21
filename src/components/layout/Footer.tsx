@@ -62,13 +62,13 @@ export function Footer() {
               <dt className="font-bold">Service area</dt>
               <dd>
                 {serviceAreaPages.length > 0 ? (
-                  <ul className="flex flex-wrap gap-x-1">
+                  <ul className="flex flex-wrap gap-x-1.5">
                     {serviceAreaPages.map((a, i) => (
                       <li key={a.slug}>
                         <Link href={a.path} className="underline">
                           {a.name}
                         </Link>
-                        {i < serviceAreaPages.length - 1 ? "," : ""}
+                        {i < serviceAreaPages.length - 1 ? " ·" : ""}
                       </li>
                     ))}
                   </ul>

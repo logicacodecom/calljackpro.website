@@ -81,7 +81,7 @@ Pages are statically prerendered, so set these env vars **before building/deploy
 - [x] Production domain: https://www.calljackpro.com (built-in default; override with `NEXT_PUBLIC_SITE_URL` for previews)
 - [x] No physical address (mobile service-area business): the address stays unset and is never displayed or marked up
 - [ ] Form delivery provider (webhook or Resend)
-- [x] Service areas: Tampa Bay Area (Tampa, St. Petersburg, Clearwater, Brandon, Largo, Riverview, Wesley Chapel, Palm Harbor), built-in default in `src/config/business.ts`; override with `NEXT_PUBLIC_SERVICE_AREAS` / `NEXT_PUBLIC_REGION_LABEL`
+- [x] Service areas: Tampa Bay Area, FL (Tampa, St. Petersburg, Clearwater, Brandon, Largo, Riverview, Wesley Chapel, Palm Harbor) and Clarkston, MI area (Clarkston, Waterford, Independence Township, Lake Orion, Auburn Hills, Pontiac). Built-in default in `src/config/business.ts`; override with `NEXT_PUBLIC_SERVICE_AREAS` ("City/ST, …") / `NEXT_PUBLIC_REGION_LABEL`
 - [x] Google Business Profile link: https://share.google/iE1gBzzXEU6oSwhTQ (built-in default; override with `NEXT_PUBLIC_GOOGLE_BUSINESS_URL`)
 - [ ] Google review link: `NEXT_PUBLIC_GOOGLE_REVIEW_URL`
 - [ ] Optional GA4 tracking of calls and form leads: `NEXT_PUBLIC_GA_MEASUREMENT_ID`

@@ -61,7 +61,7 @@ export default function ContactPage() {
                           <Link href={a.path} className="underline">
                             {a.name}
                           </Link>
-                          {i < serviceAreaPages.length - 1 ? ", " : "."}
+                          {i < serviceAreaPages.length - 1 ? " · " : "."}
                         </span>
                       ))}
                     </>
