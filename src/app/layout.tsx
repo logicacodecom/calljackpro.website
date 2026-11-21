@@ -5,6 +5,7 @@ import { business } from "@/config/business";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { MobileCallBar } from "@/components/layout/MobileCallBar";
+import { Analytics } from "@/components/Analytics";
 import { JsonLd, localBusinessJsonLd } from "@/lib/structured-data";
 
 const poppins = Poppins({
@@ -69,6 +70,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </main>
         <Footer />
         <MobileCallBar />
+        <Analytics />
       </body>
     </html>
   );

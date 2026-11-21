@@ -25,6 +25,10 @@ const raw = {
   NEXT_PUBLIC_ADDRESS_POSTAL_CODE: process.env.NEXT_PUBLIC_ADDRESS_POSTAL_CODE,
   NEXT_PUBLIC_ADDRESS_COUNTRY: process.env.NEXT_PUBLIC_ADDRESS_COUNTRY,
   NEXT_PUBLIC_REGION_LABEL: process.env.NEXT_PUBLIC_REGION_LABEL,
+  NEXT_PUBLIC_GOOGLE_BUSINESS_URL: process.env.NEXT_PUBLIC_GOOGLE_BUSINESS_URL,
+  NEXT_PUBLIC_GOOGLE_REVIEW_URL: process.env.NEXT_PUBLIC_GOOGLE_REVIEW_URL,
+  NEXT_PUBLIC_PROFILE_URLS: process.env.NEXT_PUBLIC_PROFILE_URLS,
+  NEXT_PUBLIC_GA_MEASUREMENT_ID: process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID,
 };
 
 const env = (key: keyof typeof raw) => {
@@ -43,11 +47,51 @@ const phoneE164 =
     return digits.length === 10 ? `+1${digits}` : `+${digits}`;
   })();
 
-/** Comma-separated list, e.g. "Springfield, Shelbyville, Capital City". */
-const serviceAreas = (env("NEXT_PUBLIC_SERVICE_AREAS") ?? "")
-  .split(",")
-  .map((s) => s.trim())
-  .filter(Boolean);
+const list = (value: string | undefined) =>
+  (value ?? "")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+
+/** URL-safe slug for a service-area name, e.g. "Fort Lauderdale" → "fort-lauderdale". */
+export const areaSlug = (name: string) =>
+  name
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+
+/**
+ * Service-area cities as "City/ST", comma-separated, e.g. "Tampa/FL, Clarkston/MI".
+ * The state is optional. Override with NEXT_PUBLIC_SERVICE_AREAS.
+ */
+const DEFAULT_SERVICE_AREAS = [
+  // Tampa Bay Area, FL
+  "Tampa/FL",
+  "St. Petersburg/FL",
+  "Clearwater/FL",
+  "Brandon/FL",
+  "Largo/FL",
+  "Riverview/FL",
+  "Wesley Chapel/FL",
+  "Palm Harbor/FL",
+  // Clarkston, MI area (Oakland County)
+  "Clarkston/MI",
+  "Waterford/MI",
+  "Independence Township/MI",
+  "Lake Orion/MI",
+  "Auburn Hills/MI",
+  "Pontiac/MI",
+].join(", ");
+
+const serviceAreaList = list(env("NEXT_PUBLIC_SERVICE_AREAS") ?? DEFAULT_SERVICE_AREAS).map((entry) => {
+  const [city, state] = entry.split("/").map((s) => s.trim());
+  return { city, state: state || undefined, name: state ? `${city}, ${state}` : city };
+});
+
+/** Display names, e.g. "Tampa, FL". */
+const serviceAreas = serviceAreaList.map((a) => a.name);
 
 export const business = {
   name: "Call Jack Pro",
@@ -101,7 +145,29 @@ export const business = {
     : null,
 
   /** Primary region shown in copy, e.g. "Springfield, IL". Optional. */
-  regionLabel: env("NEXT_PUBLIC_REGION_LABEL"),
+  regionLabel: env("NEXT_PUBLIC_REGION_LABEL") ?? "Tampa Bay, FL & Clarkston, MI",
+
+  /**
+   * Off-site profiles. Each one is optional and only shown/marked up once set.
+   * - googleBusinessUrl: the public Google Maps / Business Profile link
+   * - googleReviewUrl: the "Ask for reviews" short link from the Business Profile
+   * - profileUrls: comma-separated Yelp, Nextdoor, Facebook, Angi… profile URLs
+   */
+  links: {
+    googleBusinessUrl: env("NEXT_PUBLIC_GOOGLE_BUSINESS_URL") ?? "https://share.google/iE1gBzzXEU6oSwhTQ",
+    googleReviewUrl: env("NEXT_PUBLIC_GOOGLE_REVIEW_URL"),
+    profileUrls: list(env("NEXT_PUBLIC_PROFILE_URLS")),
+  },
+
+  /** Google Analytics 4 measurement ID (G-XXXXXXX). Optional; enables call/lead tracking. */
+  gaMeasurementId: env("NEXT_PUBLIC_GA_MEASUREMENT_ID"),
 } as const;
+
+/** Configured service areas with their page paths (/areas/<slug>). */
+export const serviceAreaPages = serviceAreaList.map((a) => ({
+  ...a,
+  slug: areaSlug(a.city),
+  path: `/areas/${areaSlug(a.city)}`,
+}));
 
 export type Business = typeof business;
