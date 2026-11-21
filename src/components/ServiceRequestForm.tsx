@@ -1,6 +1,7 @@
 "use client";
 
-import { startTransition, useActionState, useRef, useState, type FormEvent } from "react";
+import { startTransition, useActionState, useEffect, useRef, useState, type FormEvent } from "react";
+import { trackEvent } from "@/components/Analytics";
 import { CircleAlert, CircleCheck, LoaderCircle, Phone, Send, TriangleAlert } from "lucide-react";
 import { submitServiceRequest } from "@/app/actions/service-request";
 import { business } from "@/config/business";
@@ -117,6 +118,10 @@ export function ServiceRequestForm({
     data.set("startedAt", String(startedAt.current));
     startTransition(() => formAction(data));
   }
+
+  useEffect(() => {
+    if (state.status === "success") trackEvent("generate_lead", { form: "service_request" });
+  }, [state.status]);
 
   if (state.status === "success") {
     return (

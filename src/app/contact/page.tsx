@@ -1,6 +1,7 @@
 import { Clock, MapPin, Phone } from "lucide-react";
 import { pageMetadata } from "@/lib/seo";
-import { business } from "@/config/business";
+import Link from "next/link";
+import { business, serviceAreaPages } from "@/config/business";
 import { isLeadDeliveryConfigured } from "@/lib/lead-delivery";
 import { ServiceRequestForm } from "@/components/ServiceRequestForm";
 import { CallButton } from "@/components/PrimaryCTA";
@@ -52,9 +53,21 @@ export default function ContactPage() {
               <div>
                 <dt className="font-bold">Service area</dt>
                 <dd>
-                  {business.serviceAreas.length > 0
-                    ? `Mobile service in ${business.serviceAreas.join(", ")}.`
-                    : "Mobile service — we come to you. Call to confirm we cover your location."}
+                  {serviceAreaPages.length > 0 ? (
+                    <>
+                      Mobile service in{" "}
+                      {serviceAreaPages.map((a, i) => (
+                        <span key={a.slug}>
+                          <Link href={a.path} className="underline">
+                            {a.name}
+                          </Link>
+                          {i < serviceAreaPages.length - 1 ? ", " : "."}
+                        </span>
+                      ))}
+                    </>
+                  ) : (
+                    "Mobile service — we come to you. Call to confirm we cover your location."
+                  )}
                 </dd>
               </div>
             </div>

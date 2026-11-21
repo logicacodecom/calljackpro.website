@@ -40,6 +40,10 @@ export function localBusinessJsonLd() {
   }
   if (business.email) data.email = business.email;
 
+  const sameAs = [business.links.googleBusinessUrl, ...business.links.profileUrls].filter(Boolean);
+  if (sameAs.length > 0) data.sameAs = sameAs;
+  if (business.links.googleBusinessUrl) data.hasMap = business.links.googleBusinessUrl;
+
   return data;
 }
 

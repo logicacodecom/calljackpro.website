@@ -25,6 +25,10 @@ const raw = {
   NEXT_PUBLIC_ADDRESS_POSTAL_CODE: process.env.NEXT_PUBLIC_ADDRESS_POSTAL_CODE,
   NEXT_PUBLIC_ADDRESS_COUNTRY: process.env.NEXT_PUBLIC_ADDRESS_COUNTRY,
   NEXT_PUBLIC_REGION_LABEL: process.env.NEXT_PUBLIC_REGION_LABEL,
+  NEXT_PUBLIC_GOOGLE_BUSINESS_URL: process.env.NEXT_PUBLIC_GOOGLE_BUSINESS_URL,
+  NEXT_PUBLIC_GOOGLE_REVIEW_URL: process.env.NEXT_PUBLIC_GOOGLE_REVIEW_URL,
+  NEXT_PUBLIC_PROFILE_URLS: process.env.NEXT_PUBLIC_PROFILE_URLS,
+  NEXT_PUBLIC_GA_MEASUREMENT_ID: process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID,
 };
 
 const env = (key: keyof typeof raw) => {
@@ -43,11 +47,23 @@ const phoneE164 =
     return digits.length === 10 ? `+1${digits}` : `+${digits}`;
   })();
 
+const list = (value: string | undefined) =>
+  (value ?? "")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+
+/** URL-safe slug for a service-area name, e.g. "Fort Lauderdale" → "fort-lauderdale". */
+export const areaSlug = (name: string) =>
+  name
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+
 /** Comma-separated list, e.g. "Springfield, Shelbyville, Capital City". */
-const serviceAreas = (env("NEXT_PUBLIC_SERVICE_AREAS") ?? "")
-  .split(",")
-  .map((s) => s.trim())
-  .filter(Boolean);
+const serviceAreas = list(env("NEXT_PUBLIC_SERVICE_AREAS"));
 
 export const business = {
   name: "Call Jack Pro",
@@ -102,6 +118,28 @@ export const business = {
 
   /** Primary region shown in copy, e.g. "Springfield, IL". Optional. */
   regionLabel: env("NEXT_PUBLIC_REGION_LABEL"),
+
+  /**
+   * Off-site profiles. Each one is optional and only shown/marked up once set.
+   * - googleBusinessUrl: the public Google Maps / Business Profile link
+   * - googleReviewUrl: the "Ask for reviews" short link from the Business Profile
+   * - profileUrls: comma-separated Yelp, Nextdoor, Facebook, Angi… profile URLs
+   */
+  links: {
+    googleBusinessUrl: env("NEXT_PUBLIC_GOOGLE_BUSINESS_URL"),
+    googleReviewUrl: env("NEXT_PUBLIC_GOOGLE_REVIEW_URL"),
+    profileUrls: list(env("NEXT_PUBLIC_PROFILE_URLS")),
+  },
+
+  /** Google Analytics 4 measurement ID (G-XXXXXXX). Optional; enables call/lead tracking. */
+  gaMeasurementId: env("NEXT_PUBLIC_GA_MEASUREMENT_ID"),
 } as const;
+
+/** Configured service areas with their page paths (/areas/<slug>). */
+export const serviceAreaPages = business.serviceAreas.map((name) => ({
+  name,
+  slug: areaSlug(name),
+  path: `/areas/${areaSlug(name)}`,
+}));
 
 export type Business = typeof business;

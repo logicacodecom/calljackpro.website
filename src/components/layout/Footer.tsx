@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { business } from "@/config/business";
+import { business, serviceAreaPages } from "@/config/business";
 import { mainNav, servicesMenu } from "@/config/navigation";
 import { Logo } from "@/components/Logo";
 import { CallButton } from "@/components/PrimaryCTA";
@@ -61,11 +61,39 @@ export function Footer() {
             <div>
               <dt className="font-bold">Service area</dt>
               <dd>
-                {business.serviceAreas.length > 0
-                  ? business.serviceAreas.join(", ")
-                  : "Mobile service — call to confirm we cover your location."}
+                {serviceAreaPages.length > 0 ? (
+                  <ul className="flex flex-wrap gap-x-1">
+                    {serviceAreaPages.map((a, i) => (
+                      <li key={a.slug}>
+                        <Link href={a.path} className="underline">
+                          {a.name}
+                        </Link>
+                        {i < serviceAreaPages.length - 1 ? "," : ""}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  "Mobile service — call to confirm we cover your location."
+                )}
               </dd>
             </div>
+            {(business.links.googleReviewUrl || business.links.googleBusinessUrl) && (
+              <div>
+                <dt className="font-bold">Find us on Google</dt>
+                <dd className="flex flex-wrap gap-x-3">
+                  {business.links.googleBusinessUrl && (
+                    <a className="underline" href={business.links.googleBusinessUrl} target="_blank" rel="noopener">
+                      Google Business Profile
+                    </a>
+                  )}
+                  {business.links.googleReviewUrl && (
+                    <a className="underline" href={business.links.googleReviewUrl} target="_blank" rel="noopener">
+                      Leave a review
+                    </a>
+                  )}
+                </dd>
+              </div>
+            )}
             {business.email && (
               <div>
                 <dt className="font-bold">Email</dt>
