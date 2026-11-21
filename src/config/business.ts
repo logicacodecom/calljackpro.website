@@ -63,7 +63,10 @@ export const areaSlug = (name: string) =>
     .replace(/^-|-$/g, "");
 
 /** Comma-separated list, e.g. "Springfield, Shelbyville, Capital City". */
-const serviceAreas = list(env("NEXT_PUBLIC_SERVICE_AREAS"));
+const serviceAreas = list(
+  env("NEXT_PUBLIC_SERVICE_AREAS") ??
+    "Tampa, St. Petersburg, Clearwater, Brandon, Largo, Riverview, Wesley Chapel, Palm Harbor",
+);
 
 export const business = {
   name: "Call Jack Pro",
@@ -117,7 +120,7 @@ export const business = {
     : null,
 
   /** Primary region shown in copy, e.g. "Springfield, IL". Optional. */
-  regionLabel: env("NEXT_PUBLIC_REGION_LABEL"),
+  regionLabel: env("NEXT_PUBLIC_REGION_LABEL") ?? "the Tampa Bay Area",
 
   /**
    * Off-site profiles. Each one is optional and only shown/marked up once set.
